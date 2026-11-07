@@ -1,0 +1,3 @@
+[submodule "external/EventStudio"]
+	path = external/EventStudio
+	url = https://github.com/RexAttaque/EventStudio.git

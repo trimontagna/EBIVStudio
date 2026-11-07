@@ -1,10 +1,14 @@
 # EBIV Studio
 
 Desktop application (C++17, Dear ImGui) for **event-based imaging velocimetry**: velocity fields from the event
-stream of an event camera (Prophesee, OpenEB 5.2). It is a C++ port and graphical interface of the Python EBIV
-processing of C. Willert (DLR), [cewdlr/ebiv](https://github.com/cewdlr/ebiv) (MIT licence): same methods and
-parameter files, results compatible with its scripts, but interactive and much faster (a 96 M-event recording loads
-in ~1.5 s and one evaluation of 63 x 35 samples takes ~0.25 s on 16 threads).
+stream of an event camera (Prophesee, OpenEB 5.2).
+
+> **Based on [cewdlr/ebiv](https://github.com/cewdlr/ebiv)** by Christian Willert (DLR), MIT licence.
+> EBIV Studio is a C++ re-implementation and graphical interface of that project's processing (its Python scripts
+> and the C++ `EBI` library of `pyebiv`, ported from commit `a76ef5b`): same methods, parameter files and output
+> layout, results compatible with its scripts, but interactive and much faster (a 96 M-event recording loads in
+> ~1.5 s and one evaluation of 63 x 35 samples takes ~0.25 s on 16 threads). See *Origin and attribution* below,
+> [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and [CITATION.cff](CITATION.cff).
 
 It comes with `ebiv_cli.exe`, a console tool for batch processing with the same options as `ebiv_run.py`.
 Event reading, the event filters and the file dialogs come from [EventStudio](https://github.com/RexAttaque/EventStudio),
@@ -106,7 +110,38 @@ tests           GoogleTest suite (ebiv_tests)
 external/EventStudio   submodule: evs_core, evs_io, Dear ImGui, platform dialogs
 ```
 
-## Credits
+## Origin and attribution
 
-The EBIV methods, parameters and file formats are those of the Python EBIV code by Christian Willert (DLR),
-[cewdlr/ebiv](https://github.com/cewdlr/ebiv); please cite it (see its `CITATION.cff`) when publishing results.
+The EBIV methods, parameters and file formats come from [cewdlr/ebiv](https://github.com/cewdlr/ebiv)
+(Copyright (c) 2022 Chris Willert, MIT licence; notice reproduced in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)).
+Correspondence with the original code:
+
+| cewdlr/ebiv | EBIV Studio |
+|---|---|
+| `python/ebiv_params.py` (`ebiv_params.cfg`) | `src/ebiv/params.*` (same keys; extra keys are ignored by the Python reader) |
+| `python/ebiv_utils.py`, `python/ebiv_process.py`: sampling, motion compensation (`sumWarpedEvents`, objective functions), sum of correlation (`FFT_CrossCorr2D`), peak fit | `src/ebiv/sampling.*`, `motion_comp.*`, `correlation.*`, `processor.*` |
+| `python/ebiv_run.py`: time series and `.npz` output | `src/ebiv/processor.*`, `export.*`, `src/ebiv_app/cli.cpp` (`ebiv_cli`, same options) |
+| outlier detection (`DetectOutliers`) and replacement | `src/ebiv/postprocess.*` |
+| `pyebiv` C++ library (`EBI::MeanPulseHistogram`, `DetermineOffsetTime`), `python/pulsed_ebiv_processing.py` | `src/ebiv/pulse.*` |
+| `.evt` event files, `python/plot_velmap.py` (reads the exported `.npz`) | `src/ebiv/events.*`, `export.*` |
+
+Deliberate differences: the default bilinear warping uses the standard weights (a *Python-compatible* option
+reproduces the original's swapped weights); outliers are replaced by the mean of valid neighbours instead of
+scipy `griddata`; whole recordings are loaded through OpenEB (`.raw` / `.hdf5` / `.dat`) as well as `.evt`.
+
+If you publish results obtained with EBIV Studio, please cite the original work:
+
+```bibtex
+@article{EBIV:2022,
+    title = {Event-based imaging velocimetry: an assessment of event-based cameras for the measurement of fluid flows},
+    author = {Willert, Christian and Klinner, Joachim},
+    doi = {10.1007/s00348-022-03441-6},
+    journal = {Exp. Fluids}, volume = {63}, pages = {101}, year = {2022},
+}
+@article{PulsedEBIV:2023,
+    title = {Event-based imaging velocimetry using pulsed illumination},
+    author = {Willert, Christian},
+    doi = {10.1007/s00348-023-03641-8},
+    journal = {Exp. Fluids}, volume = {64}, pages = {98}, year = {2023},
+}
+```

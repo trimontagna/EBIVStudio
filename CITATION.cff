@@ -1,0 +1,42 @@
+cff-version: 1.2.0
+title: "EBIV Studio: C++ interface for event-based imaging velocimetry"
+message: >-
+  EBIV Studio re-implements the EBIV processing of C. Willert (DLR). If you publish results obtained with it,
+  please cite the EBIV software and publications listed under "references".
+type: software
+authors:
+  - given-names: Tristan
+    family-names: Montagnier
+repository-code: "https://github.com/RexAttaque/EBIVStudio"
+references:
+  - type: software
+    title: Event-based imaging velocimetry
+    authors:
+      - given-names: Chris
+        family-names: Willert
+        affiliation: DLR
+        orcid: "https://orcid.org/0000-0002-1668-0181"
+    repository-code: "https://github.com/cewdlr/ebiv"
+    license: MIT
+  - type: article
+    title: "Event-based imaging velocimetry: an assessment of event-based cameras for the measurement of fluid flows"
+    authors:
+      - given-names: Christian
+        family-names: Willert
+      - given-names: Joachim
+        family-names: Klinner
+    journal: Experiments in Fluids
+    volume: 63
+    start: 101
+    year: 2022
+    doi: 10.1007/s00348-022-03441-6
+  - type: article
+    title: Event-based imaging velocimetry using pulsed illumination
+    authors:
+      - given-names: Christian
+        family-names: Willert
+    journal: Experiments in Fluids
+    volume: 64
+    start: 98
+    year: 2023
+    doi: 10.1007/s00348-023-03641-8

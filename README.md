@@ -87,7 +87,11 @@ C:\Dev\
 |---|---|
 | `build.bat [target]` | Fetches the submodule if needed, configures (first time) and builds into `build\` (Release, with PDBs) |
 | `run_tests.bat [gtest args]` | Runs the unit tests (`build\Release\ebiv_tests.exe`) |
-| `EBIVStudio.bat [recording] [cfg] [--run]` | Starts EBIV Studio |
+| `EBIVStudio.bat [recording] [cfg] [--run] [--console]` | Starts EBIV Studio |
+
+Double-clicked, `EBIVStudio.bat` waits for the application: its console window is hidden once EBIV Studio starts and
+closed when it ends (also in Windows Terminal, whatever its `closeOnExit` setting). Run from a terminal (cmd, PowerShell),
+the terminal is left as it is and its prompt comes back when EBIV Studio closes; `--console` keeps the window.
 
 Batch processing (run from a terminal where `openeb_env.bat` was called, so the OpenEB DLLs are found):
 

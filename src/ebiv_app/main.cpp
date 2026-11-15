@@ -13,6 +13,7 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
 
+#include "app/launch_console.h"
 #include "ebiv_app/app.h"
 
 namespace {
@@ -90,6 +91,7 @@ void save_capture(ebiv::app::App &app, int fb_w, int fb_h) {
 } // namespace
 
 int main(int argc, char **argv) {
+    evs::app::launch_console::hide(); // the window of a double-clicked EBIVStudio.bat
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
         return 1;
@@ -118,10 +120,12 @@ int main(int argc, char **argv) {
 
     {
         ebiv::app::App app;
-        // EBIVStudio [parameters.cfg] [recording] [--run]; parameters are applied before the recording is opened
+        // EBIVStudio [parameters.cfg] [recording] [--run] [--console]; parameters are applied before the recording is opened
         std::vector<std::filesystem::path> files;
         for (int i = 1; i < argc; ++i) {
             const std::string arg = argv[i];
+            if (arg == "--console")
+                continue; // keep the console of EBIVStudio.bat (launch_console)
             if (arg == "--run")
                 app.run_after_load();
             else
@@ -168,5 +172,6 @@ int main(int argc, char **argv) {
     ImGui::DestroyContext();
     glfwDestroyWindow(window);
     glfwTerminate();
+    evs::app::launch_console::close();
     return 0;
 }

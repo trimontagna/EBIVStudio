@@ -54,6 +54,7 @@ add_executable(EBIVStudio WIN32
     src/ebiv_app/viewer.cpp
     src/ebiv_app/render.cpp
     ${EVENTSTUDIO_DIR}/src/app/platform.cpp
+    ${EVENTSTUDIO_DIR}/src/app/launch_console.cpp
 )
 target_link_libraries(EBIVStudio PRIVATE ebiv imgui opencv_imgproc opencv_imgcodecs comdlg32 shell32 ole32)
 if(MSVC)
